@@ -11,8 +11,8 @@ function Logout() {
 
   const onSuccess = () => {
         dispatch(setGoogleUser(null))
-        console.log('Logout made successfully');
-        alert('Logout made successfully ✌');
+        console.log('Logout successfully');
+        alert('Logout successfully ✌');
   };
 
   return (
@@ -20,7 +20,8 @@ function Logout() {
       <GoogleLogout
         clientId={clientId}
         render={renderProps => (
-            <button onClick={renderProps.onClick} disabled={renderProps.disabled} style={{padding:"10px", borderRadius:"10px", backgroundColor:"red", color:"white"}}>
+            <button onClick={renderProps.onClick} disabled={renderProps.disabled} 
+            style={{cursor:"pointer", padding:"10px", width:"100px", height:"50px",fontSize:"16px",borderRadius:"10px", backgroundColor:"red", color:"white"}}>
                 Logout
             </button>
         )}

@@ -5,7 +5,7 @@ const SearchView = ({books}) => {
 
     if(books == null){
         return (
-            <div>Please make a search to display books here</div>
+            <div style={{fontSize:"16px", fontWeight:"lighter", color:"gray"}}>Search to display books</div>
         )
     }
     else{

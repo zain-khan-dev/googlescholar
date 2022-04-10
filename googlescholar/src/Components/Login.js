@@ -28,7 +28,8 @@ const Login = ({setRedirect}) => {
                 clientId={clientId}
                 buttonText="Google Login"
                 render={renderProps => (
-                    <button onClick={renderProps.onClick} disabled={renderProps.disabled} style={{padding:"10px", borderRadius:"10px", backgroundColor:"green", color:"white"}}>
+                    <button onClick={renderProps.onClick} disabled={renderProps.disabled} 
+                    style={{cursor:"pointer",padding:"10px",width:"100px", height:"50px",fontSize:"16px", borderRadius:"10px", backgroundColor:"green", color:"white"}}>
                         Login
                     </button>
                 )}
