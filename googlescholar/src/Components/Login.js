@@ -4,7 +4,7 @@ import { setGoogleUser } from "../reducer/SignupReducer"
 
 
 
-const clientId =  "968493280733-q243rqdumdp3v9tt5jjietb5vi85k202.apps.googleusercontent.com"
+const clientId =  process.env.REACT_APP_GOOGLE_CLIENT_ID
 const Login = ({setRedirect}) => {
     
 

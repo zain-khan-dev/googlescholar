@@ -12,7 +12,7 @@ const SearchView = ({books}) => {
 
         return (
             <div style={{display:"flex", flexDirection:"row", flexWrap:"wrap"}}>
-                {books.items.map(book=> <BookSearchView volumeInfo={book.volumeInfo} id={book.id} />)}
+                {books.map(book=> <BookSearchView volumeInfo={book.volumeInfo} key={book.id} id={book.id} />)}
             </div>
         )
         
