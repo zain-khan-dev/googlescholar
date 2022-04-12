@@ -2,13 +2,13 @@ import {useEffect, useState} from "react"
 import axios from "axios"
 import {SearchView} from "../Components"
 import { useSelector } from "react-redux"
-import { Navigate } from "react-router-dom"
 import Login from "../Components/Login"
 import Logout from "../Components/Logout"
-import {createRef} from "react"
+import {postSearchMetric, getAPIData} from "../common/utils"
+import {MAX_RESULT} from "../common/Constants"
 
 
-const LAMBDA_URL = process.env.REACT_APP_LAMBDA_URL
+
 const Search = () => {
 
 
@@ -21,52 +21,34 @@ const Search = () => {
     const [books, setBooks] = useState([])
     const [totalBooks, setTotalBooks] = useState(0)
 
-    const MAX_RESULT = 10
-
-
-
-    const postSearchMetric = (data) => {
-        console.log("Made search here")
-        axios({
-            method:"post",
-            url:LAMBDA_URL,
-            data:data
-        })
-    }
-    
-
-    const getAPIData = (searchValue) => {
-        searchValue = searchValue.trim()
-        if(searchValue == ""){
-            setBooks(null)
-            return
-        }
-        console.log("Made api call with " + searchValue)
-        axios.get(`https://www.googleapis.com/books/v1/volumes?q=${searchValue}&startIndex=${offset}`)
-        .then((result)=>{
-            console.log(result.data.totalItems)
-            setTotalBooks(result.data.totalItems)
-            result.totalCount
-            setBooks(result.data.items)
-        })  
-        .catch((e)=>{
-            console.log(e)
-        })
-    }
-
-    useEffect(() => {
-        getAPIData(searchedValue)
-
+    useEffect(async () => {
+        const bookResultData = await getAPIData(searchedValue, offset)
+        updateBooks(bookResultData)
     }, [offset])
 
     const handlePrev = (e) => {
 
+        // decrease the offset by the max_books returned each time
         setOffset(offset-MAX_RESULT)
     }
 
 
     const handleNext = (e) => {
+        // increase the offset by the max_books returned each time
         setOffset(offset+MAX_RESULT)
+    }
+
+
+    const updateBooks = (bookResultData) => {
+        if(bookResultData=== null){
+            setBooks(null)
+            setTotalBooks(0)
+        }
+        else{
+
+            setBooks(bookResultData.items)
+            setTotalBooks(bookResultData.totalItems)
+        }
     }
 
 
@@ -77,19 +59,23 @@ const Search = () => {
         const searchValue = e.target.value.trim()
         if(searchValue == ""){
             setBooks(null)
+            setTotalBooks(0)
             return
         }
-        setTimer(setTimeout(()=>{
+        setTimer(setTimeout(async ()=>{
             
             var data = ""
             if(signupState !== null){
+                // when the user is signed in then populate with the data from google signup
                 data = {"name":signupState.name,"email":signupState.email,"googleId":signupState.googleId, "searchQuery":searchValue}
             }
             else{
+                // when the user is not signed in then populate anonymous data
                 data = {"name":"john doe","email":"johndoe@example.com","googleId":"1111", "searchQuery":searchValue}
             }
-            postSearchMetric(data)
-            getAPIData(searchValue) // execute api get as user has stopped typing
+            postSearchMetric(data) // post metric to lambda api with the search query and the data from google signin
+            const bookResultData = await getAPIData(searchValue, offset) // execute api and get book result as user has stopped typing
+            updateBooks(bookResultData)
         }, 1000))  
     }
 
@@ -98,6 +84,7 @@ const Search = () => {
             <div style={{display:"flex", flexDirection:"row-reverse", width:"75%"}}>
             {signupState==null?<Login />:<Logout />}
             </div>
+            <h1 style={{textAlign:"center"}}>Search Books 📚</h1>
             <div style={{ textAlign:"center"}}>
                 <input style={{borderRadius:"10px", margin:"20px",width:"600px", height:"30px", padding:"10px", fontSize:"20px"}} placeholder="Start Typing Here" type="text" value={searchedValue} onChange={handleSearchChange}/>
                 <SearchView  books={books}/>

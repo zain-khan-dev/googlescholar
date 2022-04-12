@@ -4,16 +4,19 @@ import {useEffect, useState} from "react"
 import BookCover from "../Components/BookCover"
 import BookMetadata from "../Components/BookMetadata"
 import BookHeader from "../Components/BookHeader"
+import { GOOGLE_BOOKS_VOLUME_API } from "../common/Constants"
+
+
 const DetailedBook = () => {
 
-    const volumeId = useParams().id
+    // get the volume id for which details of the books are needed from url
+    const volumeId = useParams().id 
 
     const [metadata, setMetadata] = useState(null)
 
 
     useEffect(()=>{
-        // axios.get()
-        axios.get(`https://www.googleapis.com/books/v1/volumes/${volumeId}`)
+        axios.get(`${GOOGLE_BOOKS_VOLUME_API}${volumeId}`)
         .then((result) => {
             console.log(result.data.volumeInfo)
             setMetadata(result.data.volumeInfo)

@@ -1,21 +1,16 @@
 import GoogleLogin, { useGoogleLogin } from "react-google-login"
 import { useDispatch, useSelector } from "react-redux"
 import { setGoogleUser } from "../reducer/SignupReducer"
+import {CLIENT_ID} from "../common/Constants"
 
-
-
-const clientId =  process.env.REACT_APP_GOOGLE_CLIENT_ID
-const Login = ({setRedirect}) => {
+const Login = () => {
     
-
     const dispatch = useDispatch()
-
-
 
     const onSuccess = (res) => {
         console.log(res.profileObj)
         dispatch(setGoogleUser(res.profileObj))
-        setRedirect(true)
+
     }
 
     const onFailure = (res) => {
@@ -25,7 +20,7 @@ const Login = ({setRedirect}) => {
     return (
         <div>
             <GoogleLogin
-                clientId={clientId}
+                clientId={CLIENT_ID}
                 buttonText="Google Login"
                 render={renderProps => (
                     <button onClick={renderProps.onClick} disabled={renderProps.disabled} 

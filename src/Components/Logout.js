@@ -2,12 +2,12 @@ import React from 'react';
 import { GoogleLogout } from 'react-google-login';
 import { useDispatch } from 'react-redux';
 import { setGoogleUser } from '../reducer/SignupReducer';
+import {CLIENT_ID} from "../common/Constants"
 
-
-const clientId =  "968493280733-q243rqdumdp3v9tt5jjietb5vi85k202.apps.googleusercontent.com"
 function Logout() {
 
-    const dispatch = useDispatch()
+
+  const dispatch = useDispatch()
 
   const onSuccess = () => {
         dispatch(setGoogleUser(null))
@@ -18,7 +18,7 @@ function Logout() {
   return (
     <div>
       <GoogleLogout
-        clientId={clientId}
+        clientId={CLIENT_ID}
         render={renderProps => (
             <button onClick={renderProps.onClick} disabled={renderProps.disabled} 
             style={{cursor:"pointer", padding:"10px", width:"100px", height:"50px",fontSize:"16px",borderRadius:"10px", backgroundColor:"red", color:"white"}}>
