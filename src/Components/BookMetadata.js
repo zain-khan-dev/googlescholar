@@ -6,18 +6,17 @@ const MetadataHeading = ({section}) => {
 const BookMetadata = ({metadata}) => {
 
 
-    console.log(metadata)
 
     return(
         <div style={{display:"flex", flexDirection:"column", margin:"0 auto", textAlign:"center", justifyContent:"space-between", justifyItems:"center"}}>
             <MetadataHeading section="About" />
-            <div dangerouslySetInnerHTML={{__html: metadata.description}}    />
+            <div className="description" dangerouslySetInnerHTML={{__html: metadata.description}}    />
             <MetadataHeading section="Written By" />
-            <div>{metadata.authors.join(" ,")}</div>
-            <MetadataHeading section="Genre" /> 
-            <div>{metadata.categories}</div>
+            <div className="author">{metadata.authors.join(" ,")}</div>
+            <MetadataHeading section="Category" /> 
+            <div className="category">{metadata.categories}</div>
             <MetadataHeading section="Published Date" />
-            <div>{metadata.publishedDate}</div>
+            <div className="pubDate">{metadata.publishedDate}</div>
         </div>
     )
 }

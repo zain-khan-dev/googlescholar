@@ -18,7 +18,6 @@ const DetailedBook = () => {
     useEffect(()=>{
         axios.get(`${GOOGLE_BOOKS_VOLUME_API}${volumeId}`)
         .then((result) => {
-            console.log(result.data.volumeInfo)
             setMetadata(result.data.volumeInfo)
         })
         .catch((e)=>{

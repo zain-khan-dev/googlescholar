@@ -9,7 +9,6 @@ const SearchView = ({books}) => {
         )
     }
     else{
-
         return (
             <div style={{display:"flex", flexDirection:"row", flexWrap:"wrap"}}>
                 {books.map(book=> <BookSearchView volumeInfo={book.volumeInfo} key={book.id} id={book.id} />)}
