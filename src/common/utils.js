@@ -1,4 +1,4 @@
-import {LAMBDA_URL} from "./Constants"
+import {LAMBDA_URL, MAX_RESULT} from "./Constants"
 import axios from "axios"
 import { GOOGLE_BOOKS_API} from "./Constants"
 
@@ -21,7 +21,7 @@ export const getAPIData = async (searchValue, offset) => {
         return null // the search was empty return without making call 
     }
     try{
-        const result = await axios.get(`${GOOGLE_BOOKS_API}${searchValue}&startIndex=${offset}`)
+        const result = await axios.get(`${GOOGLE_BOOKS_API}${searchValue}&startIndex=${offset}&maxResults=${MAX_RESULT}`)
         return result.data
     }
     catch(e) {

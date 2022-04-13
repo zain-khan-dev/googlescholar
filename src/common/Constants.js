@@ -1,4 +1,4 @@
-export const MAX_RESULT = 10
+export const MAX_RESULT = 16
 
 export const LAMBDA_URL = process.env.REACT_APP_LAMBDA_URL
 
