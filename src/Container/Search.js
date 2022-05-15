@@ -67,12 +67,13 @@ const Search = () => {
             var data = ""
             if(signupState !== null){
                 // when the user is signed in then populate with the data from google signup
-                data = {"name":signupState.name,"email":signupState.email,"googleId":signupState.googleId, "searchQuery":searchValue}
+                data = {"name":signupState.name,"email":signupState.email,"googleId":signupState.jti, "searchQuery":searchValue}
             }
             else{
                 // when the user is not signed in then populate anonymous data
                 data = {"name":"john doe","email":"johndoe@example.com","googleId":"1111", "searchQuery":searchValue}
             }
+            console.log(data)
             postSearchMetric(data) // post metric to lambda api with the search query and the data from google signin
             const bookResultData = await getAPIData(searchValue, offset) // execute api and get book result as user has stopped typing
             updateBooks(bookResultData)

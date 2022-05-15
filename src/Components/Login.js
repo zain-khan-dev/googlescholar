@@ -1,38 +1,35 @@
-import GoogleLogin, { useGoogleLogin } from "react-google-login"
+// import GoogleLogin, { useGoogleLogin } from "react-google-login"
 import { useDispatch, useSelector } from "react-redux"
+import { GoogleLogin } from '@react-oauth/google';
 import { setGoogleUser } from "../reducer/SignupReducer"
 import {CLIENT_ID} from "../common/Constants"
+import jwtDecode from "jwt-decode";
+
 
 const Login = () => {
     
     const dispatch = useDispatch()
 
     const onSuccess = (res) => {
-        console.log(res.profileObj)
-        dispatch(setGoogleUser(res.profileObj))
-
+        console.log("here")
+        console.log(res)
+        const userData = jwtDecode(res.credential)
+        console.log(userData)
+        dispatch(setGoogleUser(userData))
     }
 
     const onFailure = (res) => {
         console.log(res)
     }
 
+
     return (
         <div>
             <GoogleLogin
-                clientId={CLIENT_ID}
                 buttonText="Google Login"
-                render={renderProps => (
-                    <button onClick={renderProps.onClick} disabled={renderProps.disabled} 
-                    style={{cursor:"pointer",padding:"10px",width:"100px", height:"50px",fontSize:"16px", borderRadius:"10px", backgroundColor:"green", color:"white"}}>
-                        Login
-                    </button>
-                )}
                 onSuccess={onSuccess}
                 onFailure={onFailure}
-                cookiePolicy={'single_host_origin'}
-                style={{marginTop:'10px'}}
-                isSignedIn={false} 
+                style={{marginTop:'10px', fontSize: "18px", }}
             />
         </div>
     )

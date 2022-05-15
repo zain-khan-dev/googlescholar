@@ -1,8 +1,8 @@
 import React from 'react';
-import { GoogleLogout } from 'react-google-login';
 import { useDispatch } from 'react-redux';
 import { setGoogleUser } from '../reducer/SignupReducer';
 import {CLIENT_ID} from "../common/Constants"
+import { googleLogout } from '@react-oauth/google';
 
 function Logout() {
 
@@ -11,23 +11,24 @@ function Logout() {
 
   const onSuccess = () => {
         dispatch(setGoogleUser(null))
+
         console.log('Logout successfully');
         alert('Logout successfully ✌');
   };
 
+  const handleLogout = () => {
+    dispatch(setGoogleUser(null))
+
+    googleLogout()
+    console.log('Logout successfully');
+    alert('Logout successfully ✌');
+
+  }
+
+
   return (
     <div>
-      <GoogleLogout
-        clientId={CLIENT_ID}
-        render={renderProps => (
-            <button onClick={renderProps.onClick} disabled={renderProps.disabled} 
-            style={{cursor:"pointer", padding:"10px", width:"100px", height:"50px",fontSize:"16px",borderRadius:"10px", backgroundColor:"red", color:"white"}}>
-                Logout
-            </button>
-        )}
-        buttonText="Logout"
-        onLogoutSuccess={onSuccess}
-      ></GoogleLogout>
+      <button style={{backgroundColor:"red", color:"white", fontSize:"18px",borderRadius:"10px", width:"100px", height:"50px"}} onClick={handleLogout} >Logout</button>
     </div>
   );
 }
